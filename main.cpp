@@ -63,7 +63,7 @@ static void animate(int x){
     r_saturno += 0.2;
     r_urano += 0.2;
     r_netuno += 0.2;
-    r_lua += 0.5;
+    r_lua += 1.5;
 
     t_marte += 1.0;
     t_mercurio += 5.0;
@@ -73,7 +73,7 @@ static void animate(int x){
     t_saturno += 0.3;
     t_urano += 0.2;
     t_netuno += 0.1;
-    t_lua += 2.0;
+    t_lua += 10.0;
     glutTimerFunc(25, animate,0);
 }
 
@@ -177,9 +177,7 @@ void display(void){
                 glTranslatef(40*cos(t_terra*pi/180),40*sin(t_terra*pi/180),0);
                 glColor3f(0.0f, 0.0f, 1.0f);
                 sphere(2.5);
-            glPopMatrix();
 
-            glPushMatrix();    
                 glTranslatef(4*cos(t_lua*pi/180),4*sin(t_lua*pi/180),0);
                 glRotatef(r_lua, 0, 0, 1.0);
                 glColor3f(1.0f, 1.0f, 1.0f);
@@ -229,8 +227,17 @@ void display(void){
             glPushMatrix();
                 glRotatef(r_urano, 0, 0, 1.0);
                 glTranslatef(110*cos(t_urano*pi/180),110*sin(t_urano*pi/180),0);
-                glColor3f(0.0f, 0.0f, 0.7f);
+                glColor3f(0.4f, 0.4f, 1.0f);
                 sphere(4);
+                glColor3f(0.84f, 0.87f, 0.87f);
+                glLineWidth(2.0);
+                glBegin(GL_LINE_LOOP);
+                    for(int i = 0; i < 360; i++){
+                        float theta = i * pi / 180;
+                        glVertex3f(7 * cos(theta), 7 * sin(theta), 0);
+                    }
+                glEnd();
+                glLineWidth(0.5);
             glPopMatrix();
 
             glPushMatrix();
