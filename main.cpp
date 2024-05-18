@@ -4,10 +4,8 @@
 #include <iostream>
 #define pi 3.14159265358979323846
 
-int width = 300, height = 300, channels = 3;
-
-int posicaoluz = 0;
-GLfloat angle, fAspect,eyex, eyey, eyez;
+GLint lightPosic = 0;
+GLfloat angle, fAspect, camX, camY, camZ;
 GLfloat t_terra = 0.0, t_mercurio = 0.0, t_venus = 0.0, t_marte = 0.0, t_jupiter = 0.0, t_saturno = 0.0, t_urano = 0.0, t_netuno = 0.0, r_lua = 0.0;
 GLfloat r_sol = 20.0, r_mercurio = 5.0, r_venus = 7.0, r_terra = 10.0, r_marte = 12.0, r_jupiter = 15.0, r_saturno = 13.0, r_urano = 12.0, r_netuno = 11.0, t_lua = 0.0;
 
@@ -15,9 +13,9 @@ GLfloat r_sol = 20.0, r_mercurio = 5.0, r_venus = 7.0, r_terra = 10.0, r_marte =
 void myInit(void){
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     angle= 20;
-    eyex = 0.0;
-    eyey = 400.0;
-    eyez = 100.0;
+    camX = 0.0;
+    camY = 400.0;
+    camZ = 100.0;
 
     GLfloat ambiente[] = { 0.2, 0.2, 0.2, 1.0 };
     GLfloat difusa[] = { 0.7, 0.7, 0.7, 1.0 };
@@ -48,9 +46,8 @@ void cam(void){
     glLoadIdentity();
     gluPerspective(angle,fAspect,0.1,5000);
     glMatrixMode(GL_MODELVIEW);
-    glOrtho (-6.4,6.4,-4.8,4.8, 10.0, -10.0);
     glLoadIdentity();
-    gluLookAt(eyex,eyey,eyez, 0,0,0, 0,10,10);
+    gluLookAt(camX,camY,camZ, 0,0,0, 0,10,10);
 }
 
 static void animate(int x){
@@ -87,11 +84,10 @@ void display(void){
 
     GLfloat semespecular[4]={0.0,0.0,0.0,1.0};
     GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
-
     GLfloat posicao[] = { 0.0, 3.0, 2.0, 0.0 };
 
     glPushMatrix () ;
-    glRotated ((GLdouble) posicaoluz, 1.0, 0.0, 0.0);
+    glRotated ((GLdouble) lightPosic, 1.0, 0.0, 0.0);
     glLightfv (GL_LIGHT0, GL_POSITION, posicao);
     glPopMatrix();
 
@@ -263,13 +259,12 @@ void reshape (GLsizei w, GLsizei h){
 }
 
 
-/*Programa principal */
+
 int main(int argc, char** argv){
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize (2000, 900);
     glutInitWindowPosition (100, 100);
-
     glutCreateWindow ("Sistema solar");
     myInit();
     glutDisplayFunc(display);
