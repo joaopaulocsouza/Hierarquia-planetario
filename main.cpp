@@ -4,6 +4,9 @@
 #include <iostream>
 #define pi 3.14159265358979323846
 
+GLfloat semespecular[4]={0.0,0.0,0.0,1.0};
+GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat posicao[] = { 0.0, 3.0, 2.0, 0.0 };
 GLint lightPosic = 0;
 GLfloat angle, fAspect, camX, camY, camZ;
 GLfloat t_terra = 0.0, t_mercurio = 0.0, t_venus = 0.0, t_marte = 0.0, t_jupiter = 0.0, t_saturno = 0.0, t_urano = 0.0, t_netuno = 0.0, r_lua = 0.0;
@@ -22,6 +25,7 @@ void myInit(void){
     GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat posicao[] = { 0.0, 3.0, 2.0, 0.0 };
     GLfloat lmodelo_ambiente[] = { 0.2, 0.2, 0.2, 1.0 };
+
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
@@ -78,21 +82,113 @@ void sphere(GLfloat radius){
     glutSolidSphere(radius, 25 , 25);
 }
 
-void display(void){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,0,0);
+void Sol(){
+    glColor3f (0.0, 0.0, 1.0);
+    glMaterialfv(GL_FRONT,GL_SPECULAR, especular);
+    glMateriali(GL_FRONT,GL_SHININESS,20);
+    glRotatef(r_sol, 0, 0, 1.0);
+    glColor3f(1.0f, 1.0f, 0.0f);
+    sphere(14);
+}
 
-    GLfloat semespecular[4]={0.0,0.0,0.0,1.0};
-    GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat posicao[] = { 0.0, 3.0, 2.0, 0.0 };
-
-    glPushMatrix () ;
-    glRotated ((GLdouble) lightPosic, 1.0, 0.0, 0.0);
-    glLightfv (GL_LIGHT0, GL_POSITION, posicao);
-    glPopMatrix();
-
+void Mercuiro(){
     glPushMatrix();
-        glColor3f(0.5f, 0.5f, 0.5f);
+        glRotatef(r_mercurio, 0, 0, 1.0);
+        glTranslatef(20*cos(t_mercurio*pi/180),20*sin(t_mercurio*pi/180),0);
+        glColor3f(0.54f, 0.27f, 0.07f);
+        sphere(0.9);
+    glPopMatrix();
+}
+
+void Venus(){
+    glPushMatrix();
+        glRotatef(r_venus, 0, 0, 1.0);
+        glTranslatef(30*cos(t_venus*pi/180),30*sin(t_venus*pi/180),0);
+        glColor3f(0.8f, 0.5f, 0.2f);
+        sphere(1.5);
+    glPopMatrix();
+}
+
+void Terra(){
+        glPushMatrix();
+            glRotatef(r_terra, 0, 0, 1.0);
+            glTranslatef(40*cos(t_terra*pi/180),40*sin(t_terra*pi/180),0);
+            glColor3f(0.0f, 0.0f, 1.0f);
+            sphere(2.5);
+
+            glTranslatef(4*cos(t_lua*pi/180),4*sin(t_lua*pi/180),0);
+            glRotatef(r_lua, 0, 0, 1.0);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            sphere(0.5);
+        glPopMatrix();
+}
+
+void Marte(){
+    glPushMatrix();
+        glRotatef(r_marte, 0, 0, 1.0);
+        glTranslatef(52*cos(t_marte*pi/180),52*sin(t_marte*pi/180),0);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        sphere(2);
+    glPopMatrix();
+}
+
+void Jupiter(){
+    glPushMatrix();
+        glRotatef(r_jupiter, 0, 0, 1.0);
+        glTranslatef(65*cos(t_jupiter*pi/180),65*sin(t_jupiter*pi/180),0);
+        glColor3f(0.54f, 0.27f, 0.07f);
+        sphere(7);
+    glPopMatrix();
+}
+
+void Saturno(){
+    glPushMatrix();
+        glRotatef(r_saturno, 0, 0, 1.0);
+        glTranslatef(90*cos(t_saturno*pi/180),90*sin(t_saturno*pi/180),0);
+        glColor3f(0.54f, 0.27f, 0.07f);
+        sphere(6.5);
+
+        glColor3f(0.9f, 0.9f, 0.97f);
+        glLineWidth(5.0);
+        glBegin(GL_LINE_LOOP);
+            for(int i = 0; i < 360; i++){
+                float theta = i * pi / 180;
+                glVertex3f(11 * cos(theta), 11 * sin(theta), 0);
+            }
+        glEnd();
+
+        glColor3f(0.84f, 0.87f, 0.87f);
+        glLineWidth(3.0);
+        glBegin(GL_LINE_LOOP);
+            for(int i = 0; i < 360; i++){
+                float theta = i * pi / 180;
+                glVertex3f(13 * cos(theta), 13 * sin(theta), 0);
+            }
+        glEnd();
+        glLineWidth(0.5);
+    glPopMatrix();
+}
+
+void Urano(){
+    glPushMatrix();
+        glRotatef(r_urano, 0, 0, 1.0);
+        glTranslatef(110*cos(t_urano*pi/180),110*sin(t_urano*pi/180),0);
+        glColor3f(0.4f, 0.4f, 1.0f);
+        sphere(4);
+        glColor3f(0.84f, 0.87f, 0.87f);
+        glLineWidth(2.0);
+        glBegin(GL_LINE_LOOP);
+            for(int i = 0; i < 360; i++){
+                float theta = i * pi / 180;
+                glVertex3f(7 * cos(theta), 7 * sin(theta), 0);
+            }
+        glEnd();
+        glLineWidth(0.5);
+    glPopMatrix();
+};
+
+void Orbita(){
+     glColor3f(0.5f, 0.5f, 0.5f);
         glBegin(GL_LINE_LOOP);
             for(int i = 0; i < 360; i++){
                 float theta = i * pi / 180;
@@ -141,108 +237,41 @@ void display(void){
                 glVertex3f(120 * cos(theta), 120 * sin(theta), 0);
             } 
         glEnd();
+}
 
-        glColor3f (0.0, 0.0, 1.0);
-        glMaterialfv(GL_FRONT,GL_SPECULAR, especular);
-        glMateriali(GL_FRONT,GL_SHININESS,20);
-        glRotatef(r_sol, 0, 0, 1.0);
-        glColor3f(1.0f, 1.0f, 0.0f);
-        sphere(14);
+void Netuno(){
+    glPushMatrix();
+        glRotatef(r_netuno, 0, 0, 1.0);
+        glTranslatef(120*cos(t_netuno*pi/180),120*sin(t_netuno*pi/180),0);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        sphere(3.5);
+    glPopMatrix();
+}
 
-            glMaterialfv(GL_FRONT,GL_SPECULAR, semespecular);
-            glMateriali(GL_FRONT,GL_SHININESS,100);
+void display(void){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glColor3d(1,0,0);
 
+    glPushMatrix () ;
+    glRotated ((GLdouble) lightPosic, 1.0, 0.0, 0.0);
+    glLightfv (GL_LIGHT0, GL_POSITION, posicao);
+    glPopMatrix();
 
-            glPushMatrix();
-                glRotatef(r_mercurio, 0, 0, 1.0);
-                glTranslatef(20*cos(t_mercurio*pi/180),20*sin(t_mercurio*pi/180),0);
-                glColor3f(0.54f, 0.27f, 0.07f);
-                sphere(0.9);
-            glPopMatrix();
+    glPushMatrix();
+        Orbita();  
+        Sol();
 
-            glPushMatrix();
-                glRotatef(r_venus, 0, 0, 1.0);
-                glTranslatef(30*cos(t_venus*pi/180),30*sin(t_venus*pi/180),0);
-                glColor3f(0.8f, 0.5f, 0.2f);
-                sphere(1.5);
-            glPopMatrix();
+        glMaterialfv(GL_FRONT,GL_SPECULAR, semespecular);
+        glMateriali(GL_FRONT,GL_SHININESS,100);
 
-
-            glPushMatrix();
-                glRotatef(r_terra, 0, 0, 1.0);
-                glTranslatef(40*cos(t_terra*pi/180),40*sin(t_terra*pi/180),0);
-                glColor3f(0.0f, 0.0f, 1.0f);
-                sphere(2.5);
-
-                glTranslatef(4*cos(t_lua*pi/180),4*sin(t_lua*pi/180),0);
-                glRotatef(r_lua, 0, 0, 1.0);
-                glColor3f(1.0f, 1.0f, 1.0f);
-                sphere(0.5);
-            glPopMatrix();
-
-            glPushMatrix();
-                glRotatef(r_marte, 0, 0, 1.0);
-                glTranslatef(52*cos(t_marte*pi/180),52*sin(t_marte*pi/180),0);
-                glColor3f(1.0f, 0.0f, 0.0f);
-                sphere(2);
-            glPopMatrix();
-
-            glPushMatrix();
-                glRotatef(r_jupiter, 0, 0, 1.0);
-                glTranslatef(65*cos(t_jupiter*pi/180),65*sin(t_jupiter*pi/180),0);
-                glColor3f(0.54f, 0.27f, 0.07f);
-                sphere(7);
-            glPopMatrix();
-
-            glPushMatrix();
-                glRotatef(r_saturno, 0, 0, 1.0);
-                glTranslatef(90*cos(t_saturno*pi/180),90*sin(t_saturno*pi/180),0);
-                glColor3f(0.54f, 0.27f, 0.07f);
-                sphere(6.5);
-
-                glColor3f(0.9f, 0.9f, 0.97f);
-                glLineWidth(5.0);
-                glBegin(GL_LINE_LOOP);
-                    for(int i = 0; i < 360; i++){
-                        float theta = i * pi / 180;
-                        glVertex3f(11 * cos(theta), 11 * sin(theta), 0);
-                    }
-                glEnd();
-
-                glColor3f(0.84f, 0.87f, 0.87f);
-                glLineWidth(3.0);
-                glBegin(GL_LINE_LOOP);
-                    for(int i = 0; i < 360; i++){
-                        float theta = i * pi / 180;
-                        glVertex3f(13 * cos(theta), 13 * sin(theta), 0);
-                    }
-                glEnd();
-                glLineWidth(0.5);
-            glPopMatrix();
-            
-            glPushMatrix();
-                glRotatef(r_urano, 0, 0, 1.0);
-                glTranslatef(110*cos(t_urano*pi/180),110*sin(t_urano*pi/180),0);
-                glColor3f(0.4f, 0.4f, 1.0f);
-                sphere(4);
-                glColor3f(0.84f, 0.87f, 0.87f);
-                glLineWidth(2.0);
-                glBegin(GL_LINE_LOOP);
-                    for(int i = 0; i < 360; i++){
-                        float theta = i * pi / 180;
-                        glVertex3f(7 * cos(theta), 7 * sin(theta), 0);
-                    }
-                glEnd();
-                glLineWidth(0.5);
-            glPopMatrix();
-
-            glPushMatrix();
-                glRotatef(r_netuno, 0, 0, 1.0);
-                glTranslatef(120*cos(t_netuno*pi/180),120*sin(t_netuno*pi/180),0);
-                glColor3f(0.0f, 0.0f, 1.0f);
-                sphere(4);
-            glPopMatrix();
-
+        Mercuiro();
+        Venus();
+        Terra();
+        Marte();
+        Jupiter();
+        Saturno();
+        Urano();
+        Netuno();
     glPopMatrix();
 
 
