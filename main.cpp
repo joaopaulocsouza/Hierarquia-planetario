@@ -1,6 +1,5 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <SOIL/SOIL.h>
 #include <math.h>
 #include <iostream>
 #define pi 3.14159265358979323846
