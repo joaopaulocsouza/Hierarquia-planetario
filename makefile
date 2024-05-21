@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -Wall -Wextra -std=c99 -lm
-LDFLAGS = -lglut -lGL -lGLU
+LDFLAGS = -lglut -lGL -lGLU -lSOIL
 
 SRC = main.cpp
 OBJ = $(SRC:.c=.o)

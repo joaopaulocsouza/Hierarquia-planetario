@@ -1,8 +1,10 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <SOIL/SOIL.h>
 #include <math.h>
 #include <iostream>
 #define pi 3.14159265358979323846
+
 
 GLfloat semespecular[4]={0.0,0.0,0.0,1.0};
 GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -20,24 +22,15 @@ void myInit(void){
     camY = 400.0;
     camZ = 100.0;
 
-    GLfloat ambiente[] = { 0.2, 0.2, 0.2, 1.0 };
-    GLfloat difusa[] = { 0.7, 0.7, 0.7, 1.0 };
-    GLfloat especular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat posicao[] = { 0.0, 3.0, 2.0, 0.0 };
-    GLfloat lmodelo_ambiente[] = { 0.2, 0.2, 0.2, 1.0 };
-
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
     glShadeModel(GL_SMOOTH);
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT, ambiente);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, difusa);
-    glLightfv(GL_LIGHT0, GL_POSITION, posicao);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, especular);
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodelo_ambiente);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
+
 
 }
 
@@ -83,12 +76,23 @@ void sphere(GLfloat radius){
 }
 
 void Sol(){
+
     glColor3f (0.0, 0.0, 1.0);
     glMaterialfv(GL_FRONT,GL_SPECULAR, especular);
     glMateriali(GL_FRONT,GL_SHININESS,20);
     glRotatef(r_sol, 0, 0, 1.0);
     glColor3f(1.0f, 1.0f, 0.0f);
     sphere(14);
+
+    GLfloat luz_posic[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat ambiente[]  = { 0.2f, 0.2f, 0.2f, 1.0f };
+    GLfloat difusao[]  = { 0.8f, 0.8f, 0.8f, 1.0f };
+    GLfloat especular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    glLightfv(GL_LIGHT0, GL_POSITION, luz_posic);
+    glLightfv(GL_LIGHT0, GL_AMBIENT,  ambiente);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  difusao);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, especular);
 }
 
 void Mercuiro(){
@@ -96,7 +100,7 @@ void Mercuiro(){
         glRotatef(r_mercurio, 0, 0, 1.0);
         glTranslatef(20*cos(t_mercurio*pi/180),20*sin(t_mercurio*pi/180),0);
         glColor3f(0.54f, 0.27f, 0.07f);
-        sphere(0.9);
+        sphere(1.3);
     glPopMatrix();
 }
 
@@ -105,22 +109,23 @@ void Venus(){
         glRotatef(r_venus, 0, 0, 1.0);
         glTranslatef(30*cos(t_venus*pi/180),30*sin(t_venus*pi/180),0);
         glColor3f(0.8f, 0.5f, 0.2f);
-        sphere(1.5);
+        sphere(2.2);
     glPopMatrix();
 }
 
 void Terra(){
-        glPushMatrix();
-            glRotatef(r_terra, 0, 0, 1.0);
-            glTranslatef(40*cos(t_terra*pi/180),40*sin(t_terra*pi/180),0);
-            glColor3f(0.0f, 0.0f, 1.0f);
-            sphere(2.5);
+    
+    glPushMatrix();
+        glRotatef(r_terra, 0, 0, 1.0);
+        glTranslatef(40*cos(t_terra*pi/180),40*sin(t_terra*pi/180),0);
+        glColor3f(0.0f, 0.0f, 1.0f);
+        sphere(2.5);
 
-            glTranslatef(4*cos(t_lua*pi/180),4*sin(t_lua*pi/180),0);
-            glRotatef(r_lua, 0, 0, 1.0);
-            glColor3f(1.0f, 1.0f, 1.0f);
-            sphere(0.5);
-        glPopMatrix();
+        glTranslatef(4*cos(t_lua*pi/180),4*sin(t_lua*pi/180),0);
+        glRotatef(r_lua, 0, 0, 1.0);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        sphere(0.5);
+    glPopMatrix();
 }
 
 void Marte(){
@@ -286,6 +291,7 @@ void reshape (GLsizei w, GLsizei h){
     fAspect = (GLfloat)w/(GLfloat)h;
     cam();
 }
+
 
 
 
